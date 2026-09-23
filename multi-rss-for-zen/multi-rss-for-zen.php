@@ -10,90 +10,90 @@ Text Domain: multi-rss-for-zen
 */ 
 
 //функция установки значений по умолчанию при активации плагина begin
-function yzen_init() {
-    $yzen_options = array();  
-    $yzen_options['yzrssname'] = 'zen';
-    $yzen_options['yzcategory'] = "Общество";
-    $yzen_options['yzrating'] = "Нет (не для взрослых)";
-    $yzen_options['yztitle'] = get_bloginfo_rss('title');
-    $yzen_options['yzlink'] = get_bloginfo_rss('url');
-    $yzen_options['yzdescription'] = get_bloginfo_rss('description');
-    $yzen_options['yzlanguage'] = "ru";
-    $yzen_options['yznumber'] = "20";
-    $yzen_options['yztype'] = "post";
-    $yzen_options['yzfigcaption'] = "Использовать подписи";
-    $yzen_options['yzimgauthorselect'] = "Автор записи";
-    $yzen_options['yzimgauthor'] = "";
-    $yzen_options['yzauthor'] = "";
-    $yzen_options['yzthumbnail'] = "disabled";
-    $yzen_options['yzselectthumb'] = "";
-    $yzen_options['yzseodesc'] = "disabled";
-    $yzen_options['yzseoplugin'] = "Yoast SEO";
-    $yzen_options['yzexcludetags'] = "enabled";
-    $yzen_options['yzexcludetagslist'] = "<div>,<span>";
-    $yzen_options['yzexcludetags2'] = "enabled";
-    $yzen_options['yzexcludetagslist2'] = "<iframe>,<script>,<ins>,<style>,<object>";
-    $yzen_options['yzexcludecontent'] = "disabled";
-    $yzen_options['yzexcludecontentlist'] = esc_textarea("<!--more-->\n<p><\/p>\n<p>&nbsp;<\/p>");  
-    $yzen_options['yzqueryselect'] = "Все таксономии, кроме исключенных";
-    $yzen_options['yztaxlist'] = "";
-    $yzen_options['yzaddtaxlist'] = "";
-    $yzen_options['yzexcerpt'] = "disabled";
-    $yzen_options['yzexcludedefault'] = "disabled";
-    $yzen_options['yztypearticle'] = "false";
-    $yzen_options['yztypeplatform'] = "native-no";
-    $yzen_options['yzindex'] = "index";
+function mzen_init() {
+    $mzen_options = array();  
+    $mzen_options['yzrssname'] = 'multizen';
+    $mzen_options['yzcategory'] = "Общество";
+    $mzen_options['yzrating'] = "Нет (не для взрослых)";
+    $mzen_options['yztitle'] = get_bloginfo_rss('title');
+    $mzen_options['yzlink'] = get_bloginfo_rss('url');
+    $mzen_options['yzdescription'] = get_bloginfo_rss('description');
+    $mzen_options['yzlanguage'] = "ru";
+    $mzen_options['yznumber'] = "20";
+    $mzen_options['yztype'] = "post";
+    $mzen_options['yzfigcaption'] = "Использовать подписи";
+    $mzen_options['yzimgauthorselect'] = "Автор записи";
+    $mzen_options['yzimgauthor'] = "";
+    $mzen_options['yzauthor'] = "";
+    $mzen_options['yzthumbnail'] = "disabled";
+    $mzen_options['yzselectthumb'] = "";
+    $mzen_options['yzseodesc'] = "disabled";
+    $mzen_options['yzseoplugin'] = "Yoast SEO";
+    $mzen_options['yzexcludetags'] = "enabled";
+    $mzen_options['yzexcludetagslist'] = "<div>,<span>";
+    $mzen_options['yzexcludetags2'] = "enabled";
+    $mzen_options['yzexcludetagslist2'] = "<iframe>,<script>,<ins>,<style>,<object>";
+    $mzen_options['yzexcludecontent'] = "disabled";
+    $mzen_options['yzexcludecontentlist'] = esc_textarea("<!--more-->\n<p><\/p>\n<p>&nbsp;<\/p>");  
+    $mzen_options['yzqueryselect'] = "Все таксономии, кроме исключенных";
+    $mzen_options['yztaxlist'] = "";
+    $mzen_options['yzaddtaxlist'] = "";
+    $mzen_options['yzexcerpt'] = "disabled";
+    $mzen_options['yzexcludedefault'] = "disabled";
+    $mzen_options['yztypearticle'] = "false";
+    $mzen_options['yztypeplatform'] = "native-no";
+    $mzen_options['yzindex'] = "index";
 
-    add_option('yzen_options', $yzen_options);
+    add_option('mzen_options', $mzen_options);
     
-    yzen_add_feed();
+    mzen_add_feed();
     global $wp_rewrite;
     $wp_rewrite->flush_rules();
 }
-add_action('activate_multi-rss-for-zen/multi-rss-for-zen.php', 'yzen_init');
+register_activation_hook( __FILE__, 'mzen_init' );
 //функция установки значений по умолчанию при активации плагина end
 
 //функция при деактивации плагина begin
-function yzen_on_deactivation() {
+function mzen_on_deactivation() {
 	if ( ! current_user_can('activate_plugins') ) return;
     
     //удаляем ленту плагина при деактивации плагина и обновляем пермалинки begin
-    $yzen_options = get_option('yzen_options'); 
-    if (!isset($yzen_options['yzrssname'])) {$yzen_options['yzrssname']="zen";}
+    $mzen_options = get_option('mzen_options'); 
+    if (!isset($mzen_options['yzrssname'])) {$mzen_options['yzrssname']="multizen";}
     global $wp_rewrite;
-    if ( in_array( $yzen_options['yzrssname'], $wp_rewrite->feeds ) ) {
-       unset($wp_rewrite->feeds[array_search($yzen_options['yzrssname'], $wp_rewrite->feeds)]);
+    if ( in_array( $mzen_options['yzrssname'], $wp_rewrite->feeds ) ) {
+       unset($wp_rewrite->feeds[array_search($mzen_options['yzrssname'], $wp_rewrite->feeds)]);
     }
     $wp_rewrite->flush_rules();
     //удаляем ленту плагина при деактивации плагина и обновляем пермалинки end
 }
-register_deactivation_hook( __FILE__, 'yzen_on_deactivation' );
+register_deactivation_hook( __FILE__, 'mzen_on_deactivation' );
 //функция при деактивации плагина end
 
 //функция при удалении плагина begin
-function yzen_on_uninstall() {
+function mzen_on_uninstall() {
 	if ( ! current_user_can('activate_plugins') ) return;
-    delete_option('yzen_options');
+    delete_option('mzen_options');
 }
-register_uninstall_hook( __FILE__, 'yzen_on_uninstall' );
+register_uninstall_hook( __FILE__, 'mzen_on_uninstall' );
 //функция при удалении плагина end
 
 //загрузка файла локализации плагина begin
-function yzen_setup(){
+function mzen_setup(){
     load_plugin_textdomain('multi-rss-for-zen');
 }
-add_action('init', 'yzen_setup');
+add_action('init', 'mzen_setup');
 //загрузка файла локализации плагина end
 
 //добавление ссылки "Настройки" на странице со списком плагинов begin
-function yzen_actions($links) {
+function mzen_actions($links) {
 	return array_merge(array('settings' => '<a href="options-general.php?page=multi-rss-for-zen.php">' . __('Настройки', 'multi-rss-for-zen') . '</a>'), $links);
 }
-add_filter('plugin_action_links_' . plugin_basename( __FILE__ ),'yzen_actions');
+add_filter('plugin_action_links_' . plugin_basename( __FILE__ ),'mzen_actions');
 //добавление ссылки "Настройки" на странице со списком плагинов end
 
 //функция загрузки скриптов и стилей плагина только в админке и только на странице настроек плагина begin
-function yzen_files_admin($hook_suffix) {
+function mzen_files_admin($hook_suffix) {
 	$purl = plugins_url('', __FILE__);
 
     if ( is_admin() && $hook_suffix == 'settings_page_multi-rss-for-zen' ) {
@@ -111,86 +111,86 @@ function yzen_files_admin($hook_suffix) {
     
     }
 }
-add_action('admin_enqueue_scripts', 'yzen_files_admin');
+add_action('admin_enqueue_scripts', 'mzen_files_admin');
 //функция загрузки скриптов и стилей плагина только в админке и только на странице настроек плагина end
 
 //функция вывода страницы настроек плагина begin
-function yzen_options_page() {
+function mzen_options_page() {
 $purl = plugins_url('', __FILE__);
 
 if (isset($_POST['submit'])) {
 
 //проверка безопасности при сохранении настроек плагина begin        
-if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! current_user_can('edit_posts') ) {
+if ( ! wp_verify_nonce( $_POST['mzen_nonce'], plugin_basename(__FILE__) ) || ! current_user_can('edit_posts') ) {
    wp_die(__( 'Cheatin&#8217; uh?' ));
 }
 //проверка безопасности при сохранении настроек плагина end
     
     //проверяем и сохраняем введенные пользователем данные begin    
-    $yzen_options = get_option('yzen_options');
+    $mzen_options = get_option('mzen_options');
     
     if (!preg_match('/[^A-Za-z0-9]/', $_POST['yzrssname']))  {
-        $yzen_options['yzrssname'] = $_POST['yzrssname'];
-        update_option('yzen_options', $yzen_options);
-        yzen_add_feed();
+        $mzen_options['yzrssname'] = $_POST['yzrssname'];
+        update_option('mzen_options', $mzen_options);
+        mzen_add_feed();
         global $wp_rewrite;
         $wp_rewrite->flush_rules();
     }
     
-    $yzen_options['yzcategory'] = sanitize_text_field($_POST['yzcategory']);
-    $yzen_options['yzrating'] = sanitize_text_field($_POST['yzrating']);
-    $yzen_options['yztitle'] = sanitize_text_field($_POST['yztitle']);
-    $yzen_options['yzlink'] = esc_url_raw($_POST['yzlink']);
-    $yzen_options['yzdescription'] = sanitize_text_field($_POST['yzdescription']);
-    $yzen_options['yzlanguage'] = sanitize_text_field($_POST['yzlanguage']);
+    $mzen_options['yzcategory'] = sanitize_text_field($_POST['yzcategory']);
+    $mzen_options['yzrating'] = sanitize_text_field($_POST['yzrating']);
+    $mzen_options['yztitle'] = sanitize_text_field($_POST['yztitle']);
+    $mzen_options['yzlink'] = esc_url_raw($_POST['yzlink']);
+    $mzen_options['yzdescription'] = sanitize_text_field($_POST['yzdescription']);
+    $mzen_options['yzlanguage'] = sanitize_text_field($_POST['yzlanguage']);
     
     $yznumber = sanitize_text_field($_POST['yznumber']); 
     if (is_numeric($yznumber) && (int)$yznumber>=20) {
-        $yzen_options['yznumber'] = sanitize_text_field($_POST['yznumber']);
+        $mzen_options['yznumber'] = sanitize_text_field($_POST['yznumber']);
     }
     
-    $yzen_options['yztype'] = sanitize_text_field($_POST['yztype']);
-    $yzen_options['yzfigcaption'] = sanitize_text_field($_POST['yzfigcaption']);
-    $yzen_options['yzimgauthorselect'] = sanitize_text_field($_POST['yzimgauthorselect']);
-    $yzen_options['yzimgauthor'] = sanitize_text_field($_POST['yzimgauthor']);
-    $yzen_options['yzauthor'] = sanitize_text_field($_POST['yzauthor']);
+    $mzen_options['yztype'] = sanitize_text_field($_POST['yztype']);
+    $mzen_options['yzfigcaption'] = sanitize_text_field($_POST['yzfigcaption']);
+    $mzen_options['yzimgauthorselect'] = sanitize_text_field($_POST['yzimgauthorselect']);
+    $mzen_options['yzimgauthor'] = sanitize_text_field($_POST['yzimgauthor']);
+    $mzen_options['yzauthor'] = sanitize_text_field($_POST['yzauthor']);
     
-    if(isset($_POST['yzthumbnail'])){$yzen_options['yzthumbnail'] = sanitize_text_field($_POST['yzthumbnail']);}else{$yzen_options['yzthumbnail'] = 'disabled';}
-    $yzen_options['yzselectthumb'] = sanitize_text_field($_POST['yzselectthumb']);
+    if(isset($_POST['yzthumbnail'])){$mzen_options['yzthumbnail'] = sanitize_text_field($_POST['yzthumbnail']);}else{$mzen_options['yzthumbnail'] = 'disabled';}
+    $mzen_options['yzselectthumb'] = sanitize_text_field($_POST['yzselectthumb']);
     
-    if(isset($_POST['yzseodesc'])){$yzen_options['yzseodesc'] = sanitize_text_field($_POST['yzseodesc']);}else{$yzen_options['yzseodesc'] = 'disabled';}
-    $yzen_options['yzseoplugin'] = sanitize_text_field($_POST['yzseoplugin']);
+    if(isset($_POST['yzseodesc'])){$mzen_options['yzseodesc'] = sanitize_text_field($_POST['yzseodesc']);}else{$mzen_options['yzseodesc'] = 'disabled';}
+    $mzen_options['yzseoplugin'] = sanitize_text_field($_POST['yzseoplugin']);
     
-    if(isset($_POST['yzexcludetags'])){$yzen_options['yzexcludetags'] = sanitize_text_field($_POST['yzexcludetags']);}else{$yzen_options['yzexcludetags'] = 'disabled';}
-    $yzen_options['yzexcludetagslist'] = esc_textarea($_POST['yzexcludetagslist']);
+    if(isset($_POST['yzexcludetags'])){$mzen_options['yzexcludetags'] = sanitize_text_field($_POST['yzexcludetags']);}else{$mzen_options['yzexcludetags'] = 'disabled';}
+    $mzen_options['yzexcludetagslist'] = esc_textarea($_POST['yzexcludetagslist']);
     
-    if(isset($_POST['yzexcludetags2'])){$yzen_options['yzexcludetags2'] = sanitize_text_field($_POST['yzexcludetags2']);}else{$yzen_options['yzexcludetags2'] = 'disabled';}
-    $yzen_options['yzexcludetagslist2'] = esc_textarea($_POST['yzexcludetagslist2']);
+    if(isset($_POST['yzexcludetags2'])){$mzen_options['yzexcludetags2'] = sanitize_text_field($_POST['yzexcludetags2']);}else{$mzen_options['yzexcludetags2'] = 'disabled';}
+    $mzen_options['yzexcludetagslist2'] = esc_textarea($_POST['yzexcludetagslist2']);
     
-    if(isset($_POST['yzexcludecontent'])){$yzen_options['yzexcludecontent'] = sanitize_text_field($_POST['yzexcludecontent']);}else{$yzen_options['yzexcludecontent'] = 'disabled';}
-    $yzen_options['yzexcludecontentlist'] = addcslashes(esc_textarea($_POST['yzexcludecontentlist']), '/');
+    if(isset($_POST['yzexcludecontent'])){$mzen_options['yzexcludecontent'] = sanitize_text_field($_POST['yzexcludecontent']);}else{$mzen_options['yzexcludecontent'] = 'disabled';}
+    $mzen_options['yzexcludecontentlist'] = addcslashes(esc_textarea($_POST['yzexcludecontentlist']), '/');
     
     
-    $yzen_options['yzqueryselect'] = sanitize_text_field($_POST['yzqueryselect']);
-    $yzen_options['yztaxlist'] = esc_textarea($_POST['yztaxlist']);
-    $yzen_options['yzaddtaxlist'] = esc_textarea($_POST['yzaddtaxlist']);
-    if(isset($_POST['yzexcerpt'])){$yzen_options['yzexcerpt'] = sanitize_text_field($_POST['yzexcerpt']);}else{$yzen_options['yzexcerpt'] = 'disabled';}
-    if(isset($_POST['yzexcludedefault'])){$yzen_options['yzexcludedefault'] = sanitize_text_field($_POST['yzexcludedefault']);}else{$yzen_options['yzexcludedefault'] = 'disabled';}
+    $mzen_options['yzqueryselect'] = sanitize_text_field($_POST['yzqueryselect']);
+    $mzen_options['yztaxlist'] = esc_textarea($_POST['yztaxlist']);
+    $mzen_options['yzaddtaxlist'] = esc_textarea($_POST['yzaddtaxlist']);
+    if(isset($_POST['yzexcerpt'])){$mzen_options['yzexcerpt'] = sanitize_text_field($_POST['yzexcerpt']);}else{$mzen_options['yzexcerpt'] = 'disabled';}
+    if(isset($_POST['yzexcludedefault'])){$mzen_options['yzexcludedefault'] = sanitize_text_field($_POST['yzexcludedefault']);}else{$mzen_options['yzexcludedefault'] = 'disabled';}
 
-    $yzen_options['yztypearticle'] = sanitize_text_field($_POST['yztypearticle']);
-    $yzen_options['yztypeplatform'] = sanitize_text_field($_POST['yztypeplatform']);
-    $yzen_options['yzindex'] = sanitize_text_field($_POST['yzindex']);
+    $mzen_options['yztypearticle'] = sanitize_text_field($_POST['yztypearticle']);
+    $mzen_options['yztypeplatform'] = sanitize_text_field($_POST['yztypeplatform']);
+    $mzen_options['yzindex'] = sanitize_text_field($_POST['yzindex']);
 
 
 
-    update_option('yzen_options', $yzen_options);
+    update_option('mzen_options', $mzen_options);
     //проверяем и сохраняем введенные пользователем данные end
 }
-yzen_set_new_options();
-$yzen_options = get_option('yzen_options');
+mzen_set_new_options();
+$mzen_options = get_option('mzen_options');
 ?>
 <?php   if (!empty($_POST) ) :
-if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! current_user_can('edit_posts') ) {
+if ( ! wp_verify_nonce( $_POST['mzen_nonce'], plugin_basename(__FILE__) ) || ! current_user_can('edit_posts') ) {
    wp_die(__( 'Cheatin&#8217; uh?' ));
 }
 ?>
@@ -203,18 +203,6 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
 <div class="metabox-holder" id="poststuff">
 <div class="meta-box-sortables">
 
-<div class="postbox">
-    <h3 style="border-bottom: 1px solid #E1E1E1;background: #f7f7f7;"><span class="tcode"><?php _e('Вам нравится этот плагин ?', 'multi-rss-for-zen'); ?></span></h3>
-    <div class="inside" style="display: block;margin-right: 12px;">
-        <img src="<?php echo $purl . '/img/icon_coffee.png'; ?>" title="<?php _e('Купить мне чашку кофе :)', 'multi-rss-for-zen'); ?>" style=" margin: 5px; float:left;" />
-        <p><?php _e('Привет, меня зовут <strong>Эд</strong>.', 'multi-rss-for-zen'); ?></p>
-        <p><?php _e('Я потратил много времени на разработку этого плагина.', 'multi-rss-for-zen'); ?> <br />
-        <?php _e('Поэтому не откажусь от небольшого пожертвования :)', 'multi-rss-for-zen'); ?></p>
-        <a target="_blank" id="yadonate" href="https://money.yandex.ru/to/"><?php _e('Подарить', 'multi-rss-for-zen'); ?></a> 
-                <div style="clear:both;"></div>
-    </div>
-</div>
-
 <form action="" method="post">
 
 <div class="postbox">
@@ -225,16 +213,16 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
         <table class="form-table">
         
         <?php if ( get_option('permalink_structure') ) {
-            $kor = get_bloginfo("url") .'/feed/' . '<strong>' . $yzen_options['yzrssname'] . '</strong>/';
-            $rssname = get_bloginfo("url") .'/feed/' . $yzen_options['yzrssname'] . '/';
+            $kor = get_bloginfo("url") .'/feed/' . '<strong>' . $mzen_options['yzrssname'] . '</strong>/';
+            $rssname = get_bloginfo("url") .'/feed/' . $mzen_options['yzrssname'] . '/';
             echo '<p>Ваша RSS-лента для Дзена доступна по адресу: <a target="new" href="'.$rssname.'">'.$rssname.'</a><br /><br />
             Новые правила добавления канала в сервис Дзен читайте на этой <a target="new" href="https://yandex.ru/support/zen/publishers/site-to-channel.html">странице</a>.<br />
             Цитата: <tt>Для сайта site.ru проверка и привязка возможна при наборе каналом 7000 дочитываний за последние семь дней. <br />Учитываются только публикации со средним временем дочитывания не менее 40 секунд</tt>.<br />
             Т.е. предлагается сначала создать и заполнить канал материалами, получить 7000 дочитываний, а уже после этого можно будет добавить ленту.
             </p>';
          } else {
-            $kor = get_bloginfo("url") .'/?feed=' . '<strong>' . $yzen_options['yzrssname']. '</strong>';
-            $rssname = get_bloginfo("url") .'/?feed=' . $yzen_options['yzrssname'] ;
+            $kor = get_bloginfo("url") .'/?feed=' . '<strong>' . $mzen_options['yzrssname']. '</strong>';
+            $rssname = get_bloginfo("url") .'/?feed=' . $mzen_options['yzrssname'] ;
             echo '<p>Ваша RSS-лента для Яндекс.Дзена доступна по адресу: <a target="new" href="'.$rssname.'">'.$rssname.'</a><br /><br />
             Новые правила добавления канала в сервис Яндекс.Дзен читайте на этой <a target="new" href="https://yandex.ru/support/zen/publishers/site-to-channel.html">странице</a>.<br />
             Цитата: <tt>Для сайта site.ru проверка и привязка возможна при наборе каналом 7000 дочитываний за последние семь дней. <br />Учитываются только публикации со средним временем дочитывания не менее 40 секунд</tt>.<br />
@@ -245,7 +233,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr>
                 <th><?php _e("Имя RSS-ленты:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yzrssname" size="40" value="<?php echo esc_attr($yzen_options['yzrssname']); ?>" />
+                    <input type="text" name="yzrssname" size="40" value="<?php echo esc_attr($mzen_options['yzrssname']); ?>" />
                     <br /><small><?php _e("Текущий URL RSS-ленты:", "multi-rss-for-zen"); ?> <tt><?php echo $kor; ?></tt><br />
                     <?php _e("Только буквы и цифры, не меняйте без необходимости.", "multi-rss-for-zen"); ?>
                     </small><div style="margin-bottom:20px;"></div>
@@ -254,28 +242,28 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr>
                 <th><?php _e("Заголовок:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yztitle" size="40" value="<?php echo esc_attr(stripslashes($yzen_options['yztitle'])); ?>" />
+                    <input type="text" name="yztitle" size="40" value="<?php echo esc_attr(stripslashes($mzen_options['yztitle'])); ?>" />
                     <br /><small><?php _e("Название издания.", "multi-rss-for-zen"); ?> </small>
                 </td>
             </tr>
             <tr>
                 <th><?php _e("Ссылка:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yzlink" size="40" value="<?php echo esc_attr(stripslashes($yzen_options['yzlink'])); ?>" />
+                    <input type="text" name="yzlink" size="40" value="<?php echo esc_attr(stripslashes($mzen_options['yzlink'])); ?>" />
                     <br /><small><?php _e("Адрес сайта издания.", "multi-rss-for-zen"); ?> </small>
                </td>
             </tr>
             <tr>
                 <th><?php _e("Описание:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yzdescription" size="40" value="<?php echo esc_attr(stripslashes($yzen_options['yzdescription'])); ?>" />
+                    <input type="text" name="yzdescription" size="40" value="<?php echo esc_attr(stripslashes($mzen_options['yzdescription'])); ?>" />
                     <br /><small><?php _e("Описание издания.", "multi-rss-for-zen"); ?> </small>
                </td>
             </tr>
             <tr>
                 <th><?php _e("Язык:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yzlanguage" size="2" value="<?php echo esc_attr(stripslashes($yzen_options['yzlanguage'])); ?>" />
+                    <input type="text" name="yzlanguage" size="2" value="<?php echo esc_attr(stripslashes($mzen_options['yzlanguage'])); ?>" />
                     <br /><small><?php _e("Язык статей издания в стандарте <a target='new' href='https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B4%D1%8B_%D1%8F%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2'>ISO 639-1</a> (Россия - <strong>ru</strong>, Украина - <strong>uk</strong> и т.д.)", "multi-rss-for-zen"); ?> </small>
                     <div  style="margin-bottom:20px;"></div>
                </td>
@@ -283,21 +271,21 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
            <tr>
                 <th><?php _e("Количество записей:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yznumber" size="2" value="<?php echo esc_attr(stripslashes($yzen_options['yznumber'])); ?>" />
+                    <input type="text" name="yznumber" size="2" value="<?php echo esc_attr(stripslashes($mzen_options['yznumber'])); ?>" />
                     <br /><small><?php _e("Количество записей в ленте (по требованиям Яндекса минимально необходимо <strong>20</strong> записей).", "multi-rss-for-zen"); ?> </small>
                </td>
             </tr>
            <tr>
                 <th><?php _e("Типы записей:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yztype" size="20" value="<?php echo esc_attr(stripslashes($yzen_options['yztype'])); ?>" />
+                    <input type="text" name="yztype" size="20" value="<?php echo esc_attr(stripslashes($mzen_options['yztype'])); ?>" />
                     <br /><small><?php _e("Типы записей в ленте через запятую (<strong>post</strong> - записи, <strong>page</strong> - страницы и т.д.).<br />У произвольных типов записей должно быть поле <strong>post_content</strong>!", "multi-rss-for-zen"); ?> </small>
                </td>
             </tr>
             <tr>
                 <th><?php _e("Автор записей:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yzauthor" size="20" value="<?php echo esc_attr(stripslashes($yzen_options['yzauthor'])); ?>" />
+                    <input type="text" name="yzauthor" size="20" value="<?php echo esc_attr(stripslashes($mzen_options['yzauthor'])); ?>" />
                     <br /><small><?php _e("Автор записей (если не заполнено, то будет использовано имя автора записи).", "multi-rss-for-zen"); ?> </small>
                </td>
             </tr>
@@ -305,8 +293,8 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Описания изображений:", 'multi-rss-for-zen') ?></th>
                 <td>
                      <select name="yzfigcaption" id="capalt" style="width: 250px;">
-                        <option value="Использовать подписи" <?php if ($yzen_options['yzfigcaption'] == 'Использовать подписи') echo "selected='selected'" ?>><?php _e("Использовать подписи", "multi-rss-for-zen"); ?></option>
-                        <option value="Отключить описания" <?php if ($yzen_options['yzfigcaption'] == 'Отключить описания') echo "selected='selected'" ?>><?php _e("Отключить описания", "multi-rss-for-zen"); ?></option>
+                        <option value="Использовать подписи" <?php if ($mzen_options['yzfigcaption'] == 'Использовать подписи') echo "selected='selected'" ?>><?php _e("Использовать подписи", "multi-rss-for-zen"); ?></option>
+                        <option value="Отключить описания" <?php if ($mzen_options['yzfigcaption'] == 'Отключить описания') echo "selected='selected'" ?>><?php _e("Отключить описания", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Разметка \"описания\" для изображений.", "multi-rss-for-zen"); ?> <br />
                     <?php _e("В html5-темах будет взята информация из тега <tt>&lt;figcaption&gt;</tt>, в html4-темах из шорткода <tt>[caption]</tt>.", "multi-rss-for-zen"); ?></small>
@@ -316,9 +304,9 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Автор изображений:", "multi-rss-for-zen") ?></th>
                 <td>
                     <select name="yzimgauthorselect" id="imgselect" style="width: 250px;">
-                        <option value="Автор записи" <?php if ($yzen_options['yzimgauthorselect'] == 'Автор записи') echo "selected='selected'" ?>><?php _e("Автор записи", "multi-rss-for-zen"); ?></option>
-                        <option value="Указать автора" <?php if ($yzen_options['yzimgauthorselect'] == 'Указать автора') echo "selected='selected'" ?>><?php _e("Указать автора", "multi-rss-for-zen"); ?></option>
-                        <option value="Отключить указание автора" <?php if ($yzen_options['yzimgauthorselect'] == 'Отключить указание автора') echo "selected='selected'" ?>><?php _e("Отключить указание автора", "multi-rss-for-zen"); ?></option>
+                        <option value="Автор записи" <?php if ($mzen_options['yzimgauthorselect'] == 'Автор записи') echo "selected='selected'" ?>><?php _e("Автор записи", "multi-rss-for-zen"); ?></option>
+                        <option value="Указать автора" <?php if ($mzen_options['yzimgauthorselect'] == 'Указать автора') echo "selected='selected'" ?>><?php _e("Указать автора", "multi-rss-for-zen"); ?></option>
+                        <option value="Отключить указание автора" <?php if ($mzen_options['yzimgauthorselect'] == 'Отключить указание автора') echo "selected='selected'" ?>><?php _e("Отключить указание автора", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Разметка \"автора\" для изображений (<tt>&lt;span class=\"copyright\">Автор&lt;/span></tt>).", "multi-rss-for-zen"); ?> <br />
                     <?php _e("Работает только при включенных описаниях для изображений.", "multi-rss-for-zen"); ?> <br />
@@ -328,7 +316,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr id="ownname" style="display:none;">
                 <th><?php _e("Имя автора изображений:", "multi-rss-for-zen") ?></th>
                 <td>
-                    <input type="text" name="yzimgauthor" size="20" value="<?php echo esc_attr(stripslashes($yzen_options['yzimgauthor'])); ?>" />
+                    <input type="text" name="yzimgauthor" size="20" value="<?php echo esc_attr(stripslashes($mzen_options['yzimgauthor'])); ?>" />
                     <br /><small><?php _e("Автор изображений (если не заполнено, то будет использовано имя автора записи).", "multi-rss-for-zen"); ?> </small>
                </td>
             </tr>
@@ -336,32 +324,32 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Тематика записей по умолчанию:", 'multi-rss-for-zen') ?></th>
                 <td>
                      <select name="yzcategory" style="width: 250px;">
-                        <option value="Происшествия" <?php if ($yzen_options['yzcategory'] == 'Происшествия') echo "selected='selected'" ?>><?php _e("Происшествия", "multi-rss-for-zen"); ?></option>
-                        <option value="Политика" <?php if ($yzen_options['yzcategory'] == 'Политика') echo "selected='selected'" ?>><?php _e("Политика", "multi-rss-for-zen"); ?></option>
-                        <option value="Война" <?php if ($yzen_options['yzcategory'] == 'Война') echo "selected='selected'" ?>><?php _e("Война", "multi-rss-for-zen"); ?></option>
-                        <option value="Общество" <?php if ($yzen_options['yzcategory'] == 'Общество') echo "selected='selected'" ?>><?php _e("Общество", "multi-rss-for-zen"); ?></option>
-                        <option value="Экономика" <?php if ($yzen_options['yzcategory'] == 'Экономика') echo "selected='selected'" ?>><?php _e("Экономика", "multi-rss-for-zen"); ?></option>
-                        <option value="Спорт" <?php if ($yzen_options['yzcategory'] == 'Спорт') echo "selected='selected'" ?>><?php _e("Спорт", "multi-rss-for-zen"); ?></option>
-                        <option value="Технологии" <?php if ($yzen_options['yzcategory'] == 'Технологии') echo "selected='selected'" ?>><?php _e("Технологии", "multi-rss-for-zen"); ?></option>
-                        <option value="Наука" <?php if ($yzen_options['yzcategory'] == 'Наука') echo "selected='selected'" ?>><?php _e("Наука", "multi-rss-for-zen"); ?></option>
-                        <option value="Игры" <?php if ($yzen_options['yzcategory'] == 'Игры') echo "selected='selected'" ?>><?php _e("Игры", "multi-rss-for-zen"); ?></option>
-                        <option value="Музыка" <?php if ($yzen_options['yzcategory'] == 'Музыка') echo "selected='selected'" ?>><?php _e("Музыка", "multi-rss-for-zen"); ?></option>
-                        <option value="Литература" <?php if ($yzen_options['yzcategory'] == 'Литература') echo "selected='selected'" ?>><?php _e("Литература", "multi-rss-for-zen"); ?></option>
-                        <option value="Кино" <?php if ($yzen_options['yzcategory'] == 'Кино') echo "selected='selected'" ?>><?php _e("Кино", "multi-rss-for-zen"); ?></option>
-                        <option value="Культура" <?php if ($yzen_options['yzcategory'] == 'Культура') echo "selected='selected'" ?>><?php _e("Культура", "multi-rss-for-zen"); ?></option>
-                        <option value="Мода" <?php if ($yzen_options['yzcategory'] == 'Мода') echo "selected='selected'" ?>><?php _e("Мода", "multi-rss-for-zen"); ?></option>
-                        <option value="Знаменитости" <?php if ($yzen_options['yzcategory'] == 'Знаменитости') echo "selected='selected'" ?>><?php _e("Знаменитости", "multi-rss-for-zen"); ?></option>
-                        <option value="Психология" <?php if ($yzen_options['yzcategory'] == 'Психология') echo "selected='selected'" ?>><?php _e("Психология", "multi-rss-for-zen"); ?></option>
-                        <option value="Здоровье" <?php if ($yzen_options['yzcategory'] == 'Здоровье') echo "selected='selected'" ?>><?php _e("Здоровье", "multi-rss-for-zen"); ?></option>
-                        <option value="Авто" <?php if ($yzen_options['yzcategory'] == 'Авто') echo "selected='selected'" ?>><?php _e("Авто", "multi-rss-for-zen"); ?></option>
-                        <option value="Дом" <?php if ($yzen_options['yzcategory'] == 'Дом') echo "selected='selected'" ?>><?php _e("Дом", "multi-rss-for-zen"); ?></option>
-                        <option value="Хобби" <?php if ($yzen_options['yzcategory'] == 'Хобби') echo "selected='selected'" ?>><?php _e("Хобби", "multi-rss-for-zen"); ?></option>
-                        <option value="Еда" <?php if ($yzen_options['yzcategory'] == 'Еда') echo "selected='selected'" ?>><?php _e("Еда", "multi-rss-for-zen"); ?></option>
-                        <option value="Дизайн" <?php if ($yzen_options['yzcategory'] == 'Дизайн') echo "selected='selected'" ?>><?php _e("Дизайн", "multi-rss-for-zen"); ?></option>
-                        <option value="Фотографии" <?php if ($yzen_options['yzcategory'] == 'Фотографии') echo "selected='selected'" ?>><?php _e("Фотографии", "multi-rss-for-zen"); ?></option>
-                        <option value="Юмор" <?php if ($yzen_options['yzcategory'] == 'Юмор') echo "selected='selected'" ?>><?php _e("Юмор", "multi-rss-for-zen"); ?></option>
-                        <option value="Природа" <?php if ($yzen_options['yzcategory'] == 'Природа') echo "selected='selected'" ?>><?php _e("Природа", "multi-rss-for-zen"); ?></option>
-                        <option value="Путешествия" <?php if ($yzen_options['yzcategory'] == 'Путешествия') echo "selected='selected'" ?>><?php _e("Путешествия", "multi-rss-for-zen"); ?></option>
+                        <option value="Происшествия" <?php if ($mzen_options['yzcategory'] == 'Происшествия') echo "selected='selected'" ?>><?php _e("Происшествия", "multi-rss-for-zen"); ?></option>
+                        <option value="Политика" <?php if ($mzen_options['yzcategory'] == 'Политика') echo "selected='selected'" ?>><?php _e("Политика", "multi-rss-for-zen"); ?></option>
+                        <option value="Война" <?php if ($mzen_options['yzcategory'] == 'Война') echo "selected='selected'" ?>><?php _e("Война", "multi-rss-for-zen"); ?></option>
+                        <option value="Общество" <?php if ($mzen_options['yzcategory'] == 'Общество') echo "selected='selected'" ?>><?php _e("Общество", "multi-rss-for-zen"); ?></option>
+                        <option value="Экономика" <?php if ($mzen_options['yzcategory'] == 'Экономика') echo "selected='selected'" ?>><?php _e("Экономика", "multi-rss-for-zen"); ?></option>
+                        <option value="Спорт" <?php if ($mzen_options['yzcategory'] == 'Спорт') echo "selected='selected'" ?>><?php _e("Спорт", "multi-rss-for-zen"); ?></option>
+                        <option value="Технологии" <?php if ($mzen_options['yzcategory'] == 'Технологии') echo "selected='selected'" ?>><?php _e("Технологии", "multi-rss-for-zen"); ?></option>
+                        <option value="Наука" <?php if ($mzen_options['yzcategory'] == 'Наука') echo "selected='selected'" ?>><?php _e("Наука", "multi-rss-for-zen"); ?></option>
+                        <option value="Игры" <?php if ($mzen_options['yzcategory'] == 'Игры') echo "selected='selected'" ?>><?php _e("Игры", "multi-rss-for-zen"); ?></option>
+                        <option value="Музыка" <?php if ($mzen_options['yzcategory'] == 'Музыка') echo "selected='selected'" ?>><?php _e("Музыка", "multi-rss-for-zen"); ?></option>
+                        <option value="Литература" <?php if ($mzen_options['yzcategory'] == 'Литература') echo "selected='selected'" ?>><?php _e("Литература", "multi-rss-for-zen"); ?></option>
+                        <option value="Кино" <?php if ($mzen_options['yzcategory'] == 'Кино') echo "selected='selected'" ?>><?php _e("Кино", "multi-rss-for-zen"); ?></option>
+                        <option value="Культура" <?php if ($mzen_options['yzcategory'] == 'Культура') echo "selected='selected'" ?>><?php _e("Культура", "multi-rss-for-zen"); ?></option>
+                        <option value="Мода" <?php if ($mzen_options['yzcategory'] == 'Мода') echo "selected='selected'" ?>><?php _e("Мода", "multi-rss-for-zen"); ?></option>
+                        <option value="Знаменитости" <?php if ($mzen_options['yzcategory'] == 'Знаменитости') echo "selected='selected'" ?>><?php _e("Знаменитости", "multi-rss-for-zen"); ?></option>
+                        <option value="Психология" <?php if ($mzen_options['yzcategory'] == 'Психология') echo "selected='selected'" ?>><?php _e("Психология", "multi-rss-for-zen"); ?></option>
+                        <option value="Здоровье" <?php if ($mzen_options['yzcategory'] == 'Здоровье') echo "selected='selected'" ?>><?php _e("Здоровье", "multi-rss-for-zen"); ?></option>
+                        <option value="Авто" <?php if ($mzen_options['yzcategory'] == 'Авто') echo "selected='selected'" ?>><?php _e("Авто", "multi-rss-for-zen"); ?></option>
+                        <option value="Дом" <?php if ($mzen_options['yzcategory'] == 'Дом') echo "selected='selected'" ?>><?php _e("Дом", "multi-rss-for-zen"); ?></option>
+                        <option value="Хобби" <?php if ($mzen_options['yzcategory'] == 'Хобби') echo "selected='selected'" ?>><?php _e("Хобби", "multi-rss-for-zen"); ?></option>
+                        <option value="Еда" <?php if ($mzen_options['yzcategory'] == 'Еда') echo "selected='selected'" ?>><?php _e("Еда", "multi-rss-for-zen"); ?></option>
+                        <option value="Дизайн" <?php if ($mzen_options['yzcategory'] == 'Дизайн') echo "selected='selected'" ?>><?php _e("Дизайн", "multi-rss-for-zen"); ?></option>
+                        <option value="Фотографии" <?php if ($mzen_options['yzcategory'] == 'Фотографии') echo "selected='selected'" ?>><?php _e("Фотографии", "multi-rss-for-zen"); ?></option>
+                        <option value="Юмор" <?php if ($mzen_options['yzcategory'] == 'Юмор') echo "selected='selected'" ?>><?php _e("Юмор", "multi-rss-for-zen"); ?></option>
+                        <option value="Природа" <?php if ($mzen_options['yzcategory'] == 'Природа') echo "selected='selected'" ?>><?php _e("Природа", "multi-rss-for-zen"); ?></option>
+                        <option value="Путешествия" <?php if ($mzen_options['yzcategory'] == 'Путешествия') echo "selected='selected'" ?>><?php _e("Путешествия", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Тематика по умолчанию (если при публикации записи не задана конкретная тематика, то будет использована тематика по умолчанию).", "multi-rss-for-zen"); ?> </small>
                 </td>
@@ -370,8 +358,8 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Тип статей по умолчанию:", 'multi-rss-for-zen') ?></th>
                 <td>
                      <select name="yztypearticle" style="width: 250px;">
-                        <option value="true" <?php if ($yzen_options['yztypearticle'] == 'true') echo "selected='selected'" ?>><?php _e("Новости", "multi-rss-for-zen"); ?></option>
-                        <option value="false" <?php if ($yzen_options['yztypearticle'] == 'false') echo "selected='selected'" ?>><?php _e("Материалы", "multi-rss-for-zen"); ?></option>
+                        <option value="true" <?php if ($mzen_options['yztypearticle'] == 'true') echo "selected='selected'" ?>><?php _e("Новости", "multi-rss-for-zen"); ?></option>
+                        <option value="false" <?php if ($mzen_options['yztypearticle'] == 'false') echo "selected='selected'" ?>><?php _e("Материалы", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Тип статей по умолчанию (можно изменить индивидуально для каждой статьи при ее редактировании).<br /> <strong>Новости</strong> - статьи, актуальные не больше 3 дней. <strong>Материалы</strong> - статьи, актуальные всегда. Подробнее в <a target='_blank' href='https://yandex.ru/support/zen/website/rss-modify.html#common-requirements__content'>справке</a> Яндекса.", "multi-rss-for-zen"); ?> </small>
                 </td>
@@ -380,9 +368,9 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Публикация по умолчанию:", 'multi-rss-for-zen') ?></th>
                 <td>
                      <select name="yztypeplatform" style="width: 250px;">
-                        <option value="native-yes" <?php if ($yzen_options['yztypeplatform'] == 'native-yes') echo "selected='selected'" ?>><?php _e("Опубликовать в Дзене", "multi-rss-for-zen"); ?></option>
-                        <option value="native-draft" <?php if ($yzen_options['yztypeplatform'] == 'native-draft') echo "selected='selected'" ?>><?php _e("Сохранить как черновик в Дзене", "multi-rss-for-zen"); ?></option>
-                        <option value="native-no" <?php if ($yzen_options['yztypeplatform'] == 'native-no') echo "selected='selected'" ?>><?php _e("Публикация с сайта", "multi-rss-for-zen"); ?></option>
+                        <option value="native-yes" <?php if ($mzen_options['yztypeplatform'] == 'native-yes') echo "selected='selected'" ?>><?php _e("Опубликовать в Дзене", "multi-rss-for-zen"); ?></option>
+                        <option value="native-draft" <?php if ($mzen_options['yztypeplatform'] == 'native-draft') echo "selected='selected'" ?>><?php _e("Сохранить как черновик в Дзене", "multi-rss-for-zen"); ?></option>
+                        <option value="native-no" <?php if ($mzen_options['yztypeplatform'] == 'native-no') echo "selected='selected'" ?>><?php _e("Публикация с сайта", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Настройки публикации по умолчанию (можно изменить индивидуально для каждой статьи при ее редактировании).<br /> <strong>Опубликовать в Дзене</strong> - материал будет опубликован на платформе и попадет в ленту рекомендаций.</br />
                     <strong>Сохранить как черновик в Дзене</strong> - материал сохранится на платформе в качестве черновика. Вы можете отредактировать черновик по своему усмотрению и опубликовать.<br />
@@ -394,8 +382,8 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Индексация по умолчанию:", 'multi-rss-for-zen') ?></th>
                 <td>
                      <select name="yzindex" style="width: 250px;">
-                        <option value="index" <?php if ($yzen_options['yzindex'] == 'index') echo "selected='selected'" ?>><?php _e("Индексировать", "multi-rss-for-zen"); ?></option>
-                        <option value="noindex" <?php if ($yzen_options['yzindex'] == 'noindex') echo "selected='selected'" ?>><?php _e("Не индексировать", "multi-rss-for-zen"); ?></option>
+                        <option value="index" <?php if ($mzen_options['yzindex'] == 'index') echo "selected='selected'" ?>><?php _e("Индексировать", "multi-rss-for-zen"); ?></option>
+                        <option value="noindex" <?php if ($mzen_options['yzindex'] == 'noindex') echo "selected='selected'" ?>><?php _e("Не индексировать", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Настройки индексации по умолчанию (можно изменить индивидуально для каждой статьи при ее редактировании).<br /> 
                     Подробнее в <a target='_blank' href='https://yandex.ru/support/zen/website/rss-modify.html#publication__ul_mfk_21c_zrb'>справке</a> Яндекса.", "multi-rss-for-zen"); ?> </small>
@@ -405,8 +393,8 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Контент для взрослых по умолчанию:", 'multi-rss-for-zen') ?></th>
                 <td>
                      <select name="yzrating" style="width: 250px;">
-                        <option value="Да (для взрослых)" <?php if ($yzen_options['yzrating'] == 'Да (для взрослых)') echo "selected='selected'" ?>><?php _e("Да (для взрослых)", "multi-rss-for-zen"); ?></option>
-                        <option value="Нет (не для взрослых)" <?php if ($yzen_options['yzrating'] == 'Нет (не для взрослых)') echo "selected='selected'" ?>><?php _e("Нет (не для взрослых)", "multi-rss-for-zen"); ?></option>
+                        <option value="Да (для взрослых)" <?php if ($mzen_options['yzrating'] == 'Да (для взрослых)') echo "selected='selected'" ?>><?php _e("Да (для взрослых)", "multi-rss-for-zen"); ?></option>
+                        <option value="Нет (не для взрослых)" <?php if ($mzen_options['yzrating'] == 'Нет (не для взрослых)') echo "selected='selected'" ?>><?php _e("Нет (не для взрослых)", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Если при публикации записи не выбрана эта опция, то будет использовано значение по умолчанию. Учтите, что в понимании Яндекса контент не для взрослых подразумевает записи, которые можно показывать подросткам от <strong>13</strong> лет.", "multi-rss-for-zen"); ?> </small>
                 </td>
@@ -435,8 +423,8 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("Включить в RSS:", "multi-rss-for-zen") ?></th>
                 <td>
                     <select name="yzqueryselect" id="yzqueryselect" style="width: 280px;">
-                        <option value="Все таксономии, кроме исключенных" <?php if ($yzen_options['yzqueryselect'] == 'Все таксономии, кроме исключенных') echo "selected='selected'" ?>><?php _e("Все таксономии, кроме исключенных", "multi-rss-for-zen"); ?></option>
-                        <option value="Только указанные таксономии" <?php if ($yzen_options['yzqueryselect'] == 'Только указанные таксономии') echo "selected='selected'" ?>><?php _e("Только указанные таксономии", "multi-rss-for-zen"); ?></option>
+                        <option value="Все таксономии, кроме исключенных" <?php if ($mzen_options['yzqueryselect'] == 'Все таксономии, кроме исключенных') echo "selected='selected'" ?>><?php _e("Все таксономии, кроме исключенных", "multi-rss-for-zen"); ?></option>
+                        <option value="Только указанные таксономии" <?php if ($mzen_options['yzqueryselect'] == 'Только указанные таксономии') echo "selected='selected'" ?>><?php _e("Только указанные таксономии", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Внимание! Будьте осторожны с этой настройкой!", "multi-rss-for-zen"); ?> <br />
                     <span id="includespan"><?php _e("Обязательно установите ниже таксономии для включения в ленту - иначе лента будет пустая.", "multi-rss-for-zen"); ?> <br /></span>
@@ -447,7 +435,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr class="yztaxlisttr">
                 <th><?php _e("Таксономии для исключения:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <textarea rows="3" cols="60" name="yztaxlist" id="yztaxlist"><?php echo esc_attr(stripslashes($yzen_options['yztaxlist'])); ?></textarea>
+                    <textarea rows="3" cols="60" name="yztaxlist" id="yztaxlist"><?php echo esc_attr(stripslashes($mzen_options['yztaxlist'])); ?></textarea>
                     <br /><small><?php _e("Используемый формат: <strong>taxonomy_name:id1,id2,id3</strong>", "multi-rss-for-zen"); ?> <br />
                     <?php _e("Пример: <code>category:1,2,4</code> - записи рубрик с ID равным 1, 2 и 4 будут <strong style='color:red;'>исключены</strong> из RSS-ленты.", "multi-rss-for-zen"); ?><br />
                     <?php _e("Каждая новая таксономия должна начинаться с новой строки.", "multi-rss-for-zen"); ?><br />
@@ -458,7 +446,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr class="yzaddtaxlisttr">
                 <th><?php _e("Таксономии для добавления:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <textarea rows="3" cols="60" name="yzaddtaxlist" id="yzaddtaxlist"><?php echo esc_attr(stripslashes($yzen_options['yzaddtaxlist'])); ?></textarea>
+                    <textarea rows="3" cols="60" name="yzaddtaxlist" id="yzaddtaxlist"><?php echo esc_attr(stripslashes($mzen_options['yzaddtaxlist'])); ?></textarea>
                     <br /><small><?php _e("Используемый формат: <strong>taxonomy_name:id1,id2,id3</strong>", "multi-rss-for-zen"); ?> <br />
                     <?php _e("Пример: <code>category:1,2,4</code> - записи рубрик с ID равным 1, 2 и 4 будут <strong style='color:red;'>добавлены</strong> в RSS-ленту.", "multi-rss-for-zen"); ?><br />
                     <?php _e("Каждая новая таксономия должна начинаться с новой строки.", "multi-rss-for-zen"); ?><br />
@@ -469,7 +457,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr class="yzthumbnailtr">
                 <th><?php _e("Миниатюры в RSS:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <label for="yzthumbnail"><input type="checkbox" value="enabled" name="yzthumbnail" id="yzthumbnail" <?php if ($yzen_options['yzthumbnail'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Добавить миниатюру к записи", "multi-rss-for-zen"); ?></label>
+                    <label for="yzthumbnail"><input type="checkbox" value="enabled" name="yzthumbnail" id="yzthumbnail" <?php if ($mzen_options['yzthumbnail'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Добавить миниатюру к записи", "multi-rss-for-zen"); ?></label>
                     <br /><small><?php _e("В начало записи в RSS будет добавлена миниатюра записи (изображение записи).", "multi-rss-for-zen"); ?> <br />
                     </small>
                 </td>
@@ -480,7 +468,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                     <select name="yzselectthumb" style="width: 250px;">
                         <?php $image_sizes = get_intermediate_image_sizes(); ?>
                         <?php foreach ($image_sizes as $size_name): ?>
-                            <option value="<?php echo $size_name ?>" <?php if ($yzen_options['yzselectthumb'] == $size_name) echo "selected='selected'" ?>><?php echo $size_name ?></option>
+                            <option value="<?php echo $size_name ?>" <?php if ($mzen_options['yzselectthumb'] == $size_name) echo "selected='selected'" ?>><?php echo $size_name ?></option>
                         <?php endforeach; ?>
                     </select>
                     <br /><small><?php _e("Выберите нужный размер миниатюры (в списке находятся все зарегистрированные на сайте размеры миниатюр). ", "multi-rss-for-zen"); ?> </small>
@@ -489,7 +477,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr class="yzseodesctr">
                 <th><?php _e("Описания записей:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <label for="yzseodesc"><input type="checkbox" value="enabled" name="yzseodesc" id="yzseodesc" <?php if ($yzen_options['yzseodesc'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Использовать данные из SEO-плагинов", "multi-rss-for-zen"); ?></label>
+                    <label for="yzseodesc"><input type="checkbox" value="enabled" name="yzseodesc" id="yzseodesc" <?php if ($mzen_options['yzseodesc'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Использовать данные из SEO-плагинов", "multi-rss-for-zen"); ?></label>
                     <br /><small><?php _e("В качестве описания записи (rss-тег <tt>&lt;description&gt;</tt>) будет использовано описание записи из выбранного SEO-плагина.", "multi-rss-for-zen"); ?> </small>
                 </td>
             </tr>
@@ -497,8 +485,8 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
                 <th><?php _e("SEO-плагин:", 'multi-rss-for-zen') ?></th>
                 <td>
                     <select name="yzseoplugin" style="width: 250px;">
-                        <option value="Yoast SEO" <?php if ($yzen_options['yzseoplugin'] == 'Yoast SEO') echo "selected='selected'" ?>><?php _e("Yoast SEO", "multi-rss-for-zen"); ?></option>
-                        <option value="All in One SEO Pack" <?php if ($yzen_options['yzseoplugin'] == 'All in One SEO Pack') echo "selected='selected'" ?>><?php _e("All in One SEO Pack", "multi-rss-for-zen"); ?></option>
+                        <option value="Yoast SEO" <?php if ($mzen_options['yzseoplugin'] == 'Yoast SEO') echo "selected='selected'" ?>><?php _e("Yoast SEO", "multi-rss-for-zen"); ?></option>
+                        <option value="All in One SEO Pack" <?php if ($mzen_options['yzseoplugin'] == 'All in One SEO Pack') echo "selected='selected'" ?>><?php _e("All in One SEO Pack", "multi-rss-for-zen"); ?></option>
                     </select>
                     <br /><small><?php _e("Выберите используемый вами SEO-плагин. <br /> Если описание записи в SEO-плагине не установлено, то будет использовано стандартное описание записи (автогенерированное из первых 55 слов записи).", "multi-rss-for-zen"); ?> </small>
                 </td>
@@ -506,7 +494,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr>
                 <th><?php _e("Отрывок записей:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <label for="yzexcerpt"><input type="checkbox" value="enabled" name="yzexcerpt" id="yzexcerpt" <?php if ($yzen_options['yzexcerpt'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Добавить в начало записей \"отрывок\"", "multi-rss-for-zen"); ?></label>
+                    <label for="yzexcerpt"><input type="checkbox" value="enabled" name="yzexcerpt" id="yzexcerpt" <?php if ($mzen_options['yzexcerpt'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Добавить в начало записей \"отрывок\"", "multi-rss-for-zen"); ?></label>
                     <br /><small><?php _e("Используйте эту опцию только в случае необходимости.", "multi-rss-for-zen"); ?> <br />
                     <?php _e("Например, когда \"отрывок\" (цитата) записи содержит контент, которого нет в самой записи.", "multi-rss-for-zen"); ?> <br />
                     </small>
@@ -515,14 +503,14 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr class="yzexcludetagstr">
                 <th><?php _e("Фильтр тегов (без контента):", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <label for="yzexcludetags"><input type="checkbox" value="enabled" name="yzexcludetags" id="yzexcludetags" <?php if ($yzen_options['yzexcludetags'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Удалить указанные html-теги", "multi-rss-for-zen"); ?></label>
+                    <label for="yzexcludetags"><input type="checkbox" value="enabled" name="yzexcludetags" id="yzexcludetags" <?php if ($mzen_options['yzexcludetags'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Удалить указанные html-теги", "multi-rss-for-zen"); ?></label>
                     <br /><small><?php _e("Из контента записей будут удалены все указанные html-теги (<strong>сам контент этих тегов останется</strong>).", "multi-rss-for-zen"); ?> </small>
                 </td>
             </tr>
             <tr class="yzexcludetagslisttr">
                 <th><?php _e("Теги для удаления:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <textarea rows="3" cols="60" name="yzexcludetagslist" id="yzexcludetagslist"><?php echo esc_attr(stripslashes($yzen_options['yzexcludetagslist'])); ?></textarea>
+                    <textarea rows="3" cols="60" name="yzexcludetagslist" id="yzexcludetagslist"><?php echo esc_attr(stripslashes($mzen_options['yzexcludetagslist'])); ?></textarea>
                     <br /><small><?php _e("Список удаляемых html-тегов через запятую.", "multi-rss-for-zen"); ?> <br />
                     <?php _e("Указывать классы, идентификаторы и прочее не требуется.", "multi-rss-for-zen"); ?> <br />
                     <?php _e("Самозакрывающиеся теги вроде <tt>&lt;img src=\"...\" /></tt> и <tt>&lt;br /></tt> удалить нельзя.", "multi-rss-for-zen"); ?><br />
@@ -532,14 +520,14 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr class="yzexcludetags2tr">
                 <th><?php _e("Фильтр тегов (с контентом):", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <label for="yzexcludetags2"><input type="checkbox" value="enabled" name="yzexcludetags2" id="yzexcludetags2" <?php if ($yzen_options['yzexcludetags2'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Удалить указанные html-теги", "multi-rss-for-zen"); ?></label>
+                    <label for="yzexcludetags2"><input type="checkbox" value="enabled" name="yzexcludetags2" id="yzexcludetags2" <?php if ($mzen_options['yzexcludetags2'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Удалить указанные html-теги", "multi-rss-for-zen"); ?></label>
                     <br /><small><?php _e("Из контента записей будут удалены все указанные html-теги (<strong>включая сам контент этих тегов</strong>).", "multi-rss-for-zen"); ?> </small>
                 </td>
             </tr>
             <tr class="yzexcludetagslist2tr">
                 <th><?php _e("Теги для удаления:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <textarea rows="3" cols="60" name="yzexcludetagslist2" id="yzexcludetagslist2"><?php echo esc_attr(stripslashes($yzen_options['yzexcludetagslist2'])); ?></textarea>
+                    <textarea rows="3" cols="60" name="yzexcludetagslist2" id="yzexcludetagslist2"><?php echo esc_attr(stripslashes($mzen_options['yzexcludetagslist2'])); ?></textarea>
                     <br /><small><?php _e("Список удаляемых html-тегов через запятую.", "multi-rss-for-zen"); ?> <br />
                     <?php _e("Указывать классы, идентификаторы и прочее не требуется.", "multi-rss-for-zen"); ?> <br />
                     <?php _e("По умолчанию в список включены все теги, о которых точно известно, что они не нравятся тех. поддержке Яндекс.Дзена.", "multi-rss-for-zen"); ?> <br />
@@ -550,14 +538,14 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr class="yzexcludecontenttr">
                 <th><?php _e("Контент для удаления:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <label for="yzexcludecontent"><input type="checkbox" value="enabled" name="yzexcludecontent" id="yzexcludecontent" <?php if ($yzen_options['yzexcludecontent'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Удалить указанный контент из RSS", "multi-rss-for-zen"); ?></label>
+                    <label for="yzexcludecontent"><input type="checkbox" value="enabled" name="yzexcludecontent" id="yzexcludecontent" <?php if ($mzen_options['yzexcludecontent'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("Удалить указанный контент из RSS", "multi-rss-for-zen"); ?></label>
                     <br /><small><?php _e("Точные вхождения указанного контента будут удалены из записей в RSS-ленте.", "multi-rss-for-zen"); ?> </small>
                 </td>
             </tr>
             <tr class="yzexcludecontentlisttr">
                 <th><?php _e("Список удаляемого контента:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <textarea rows="5" cols="60" name="yzexcludecontentlist" id="yzexcludecontentlist"><?php echo esc_attr(stripcslashes($yzen_options['yzexcludecontentlist'])); ?></textarea>
+                    <textarea rows="5" cols="60" name="yzexcludecontentlist" id="yzexcludecontentlist"><?php echo esc_attr(stripcslashes($mzen_options['yzexcludecontentlist'])); ?></textarea>
                     <br /><small><?php _e("Каждый новый шаблон для удаления должен начинаться с новой строки.", "multi-rss-for-zen"); ?> <br />
                     </small>
                 </td>
@@ -565,7 +553,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
             <tr>
                 <th><?php _e("Исключать по умолчанию:", 'multi-rss-for-zen') ?></th>
                 <td>
-                    <label for="yzexcludedefault"><input type="checkbox" value="enabled" name="yzexcludedefault" id="yzexcludedefault" <?php if ($yzen_options['yzexcludedefault'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("По умолчанию исключать записи из ленты", "multi-rss-for-zen"); ?></label>
+                    <label for="yzexcludedefault"><input type="checkbox" value="enabled" name="yzexcludedefault" id="yzexcludedefault" <?php if ($mzen_options['yzexcludedefault'] == 'enabled') echo "checked='checked'"; ?> /><?php _e("По умолчанию исключать записи из ленты", "multi-rss-for-zen"); ?></label>
                     <br /><small><?php _e("Включение этой опции установит галку на \"Исключить эту запись из RSS\" по умолчанию при публикации новых записей.", "multi-rss-for-zen"); ?><br />
                     <?php _e("Используется <tt>action</tt> на <tt>save_post</tt> (сработает в случае автонаполняемого сайта).", "multi-rss-for-zen"); ?>
                     </small>
@@ -608,7 +596,7 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
       
     </div>
 </div>
-<?php wp_nonce_field( plugin_basename(__FILE__), 'yzen_nonce'); ?>
+<?php wp_nonce_field( plugin_basename(__FILE__), 'mzen_nonce'); ?>
 </form>
 </div>
 </div>
@@ -617,36 +605,19 @@ if ( ! wp_verify_nonce( $_POST['yzen_nonce'], plugin_basename(__FILE__) ) || ! c
 //функция вывода страницы настроек плагина end
 
 //функция добавления ссылки на страницу настроек плагина в раздел "Настройки" begin
-function yzen_menu() {
-	add_options_page('Яндекс.Дзен', 'Яндекс.Дзен', 'manage_options', 'multi-rss-for-zen.php', 'yzen_options_page');
+function mzen_menu() {
+	add_options_page('Мульти.Дзен', 'Мульти.Дзен', 'manage_options', 'multi-rss-for-zen.php', 'mzen_options_page');
 }
-add_action('admin_menu', 'yzen_menu');
+add_action('admin_menu', 'mzen_menu');
 //функция добавления ссылки на страницу настроек плагина в раздел "Настройки" end
 
 //подключение стилей на странице настроек плагина begin
-function yzen_admin_print_scripts() {
+function mzen_admin_print_scripts() {
     $post_permalink = $_SERVER["REQUEST_URI"];
     if(strpos($post_permalink, 'multi-rss-for-zen.php') == true) : ?>
         <style>
         tt {padding: 1px 5px 1px;margin: 0 1px;background: #eaeaea;background: rgba(0,0,0,.07);font-size: 13px;font-family: Consolas,Monaco,monospace;unicode-bidi: embed;}
-        #yadonate {
-  color: #000;
-  cursor: pointer;
-  text-decoration: none;
-  background-color:#ffdb4d;
-  padding: 3px 26px 4px 25px;
-  font-size: 15px;
-  border-radius: 3px;
-  border: 1px solid rgba(0,0,0,.1);
-  transition: background-color .1s ease-out 0s;
-}
-#yadonate:hover {
-  background-color:#fc0;
-}
-#yadonate:focus,#yadonate:active {
-  outline:none;
-  box-shadow: none;
-}
+
 .about li {
   list-style-type: square;
   margin: 5px 0px 3px 35px;
@@ -665,27 +636,27 @@ function yzen_admin_print_scripts() {
         </style>
     <?php endif; ?>
 <?php }    
-add_action('admin_head', 'yzen_admin_print_scripts');
+add_action('admin_head', 'mzen_admin_print_scripts');
 //подключение стилей на странице настроек плагина end
 
 //создаем метабокс begin
-function yzen_meta_box(){
-    $yzen_options = get_option('yzen_options');  
-    $yztype = $yzen_options['yztype']; 
+function mzen_meta_box(){
+    $mzen_options = get_option('mzen_options');  
+    $yztype = $mzen_options['yztype']; 
     $yztype = explode(",", $yztype);
-    add_meta_box('yzen_meta_box', 'Яндекс.Дзен', 'yzen_callback', $yztype, 'normal' , 'high');
+    add_meta_box('mzen_meta_box', 'Мульти Дзен', 'mzen_callback', $yztype, 'normal' , 'high');
 }
-add_action( 'add_meta_boxes', 'yzen_meta_box' );
+add_action( 'add_meta_boxes', 'mzen_meta_box' );
 //создаем метабокс end
 
 //сохраняем метабокс begin
-function yzen_save_metabox($post_id){ 
+function mzen_save_metabox($post_id){ 
     global $post;
     
-    if ( ! isset( $_POST['yzen_meta_nonce'] ) ) 
+    if ( ! isset( $_POST['mzen_meta_nonce'] ) ) 
         return $post_id;
  
-    if ( ! wp_verify_nonce($_POST['yzen_meta_nonce'], plugin_basename(__FILE__) ) )
+    if ( ! wp_verify_nonce($_POST['mzen_meta_nonce'], plugin_basename(__FILE__) ) )
 		return $post_id;
     
 	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
@@ -693,64 +664,64 @@ function yzen_save_metabox($post_id){
     
     if(isset($_POST["yzcategory"])){
         $yzcategory = sanitize_text_field($_POST['yzcategory']);
-        update_post_meta($post->ID, 'yzcategory_meta_value', $yzcategory);
+        update_post_meta($post->ID, 'mzencategory_meta_value', $yzcategory);
     }
     if(isset($_POST["yzrating"])){
         $yzrating = 'Да (для взрослых)';
-        update_post_meta($post->ID, 'yzrating_meta_value', $yzrating);
+        update_post_meta($post->ID, 'mzenrating_meta_value', $yzrating);
     } else {
         $yzrating = 'Нет (не для взрослых)';
-        update_post_meta($post->ID, 'yzrating_meta_value', $yzrating);
+        update_post_meta($post->ID, 'mzenrating_meta_value', $yzrating);
     }
     if(isset($_POST["yztypearticle"])){
         $yztypearticle = sanitize_text_field($_POST['yztypearticle']);
-        update_post_meta($post->ID, 'yztypearticle_meta_value', $yztypearticle);
+        update_post_meta($post->ID, 'mzentypearticle_meta_value', $yztypearticle);
     }
     if(isset($_POST["yztypeplatform"])){
         $yztypeplatform = sanitize_text_field($_POST['yztypeplatform']);
-        update_post_meta($post->ID, 'yztypeplatform_meta_value', $yztypeplatform);
+        update_post_meta($post->ID, 'mzentypeplatform_meta_value', $yztypeplatform);
     }
     if(isset($_POST["yzindex"])){
         $yzindex = sanitize_text_field($_POST['yzindex']);
-        update_post_meta($post->ID, 'yzindex_meta_value', $yzindex);
+        update_post_meta($post->ID, 'mzenindex_meta_value', $yzindex);
     }
 
 
     if(isset($_POST["yzrssenabled"])){
         $yzrssenabled = 'yes';
-        update_post_meta($post->ID, 'yzrssenabled_meta_value', $yzrssenabled);
+        update_post_meta($post->ID, 'mzenrssenabled_meta_value', $yzrssenabled);
     } else {
         $yzrssenabled = 'no';
-        update_post_meta($post->ID, 'yzrssenabled_meta_value', $yzrssenabled);
+        update_post_meta($post->ID, 'mzenrssenabled_meta_value', $yzrssenabled);
     }     
     
 }
-add_action('save_post', 'yzen_save_metabox');
+add_action('save_post', 'mzen_save_metabox');
 //сохраняем метабокс end
 
 //выводим метабокс begin
-function yzen_callback(){
+function mzen_callback(){
     global $post;
-    wp_nonce_field( plugin_basename(__FILE__), 'yzen_meta_nonce' );
+    wp_nonce_field( plugin_basename(__FILE__), 'mzen_meta_nonce' );
 
-    $yzen_options = get_option('yzen_options');
+    $mzen_options = get_option('mzen_options');
 
-    $yzcategory = get_post_meta($post->ID, 'yzcategory_meta_value', true); 
-    if (!$yzcategory) {$yzcategory = $yzen_options['yzcategory'];}
+    $yzcategory = get_post_meta($post->ID, 'mzencategory_meta_value', true); 
+    if (!$yzcategory) {$yzcategory = $mzen_options['yzcategory'];}
 
-    $yztypearticle = get_post_meta($post->ID, 'yztypearticle_meta_value', true); 
-    if (!$yztypearticle) {$yztypearticle = $yzen_options['yztypearticle'];}
+    $yztypearticle = get_post_meta($post->ID, 'mzentypearticle_meta_value', true); 
+    if (!$yztypearticle) {$yztypearticle = $mzen_options['yztypearticle'];}
 
-    $yztypeplatform = get_post_meta($post->ID, 'yztypeplatform_meta_value', true);
-    if (!$yztypeplatform) {$yztypeplatform = $yzen_options['yztypeplatform'];}
+    $yztypeplatform = get_post_meta($post->ID, 'mzentypeplatform_meta_value', true);
+    if (!$yztypeplatform) {$yztypeplatform = $mzen_options['yztypeplatform'];}
 
-    $yzindex = get_post_meta($post->ID, 'yzindex_meta_value', true);
-    if (!$yzindex) {$yzindex = $yzen_options['yzindex'];}
+    $yzindex = get_post_meta($post->ID, 'mzenindex_meta_value', true);
+    if (!$yzindex) {$yzindex = $mzen_options['yzindex'];}
 
-    $yzrating = get_post_meta($post->ID, 'yzrating_meta_value', true); 
-    if (!$yzrating) {$yzrating = $yzen_options['yzrating'];}   
+    $yzrating = get_post_meta($post->ID, 'mzenrating_meta_value', true); 
+    if (!$yzrating) {$yzrating = $mzen_options['yzrating'];}   
 
-    $yzrssenabled = get_post_meta($post->ID, 'yzrssenabled_meta_value', true); 
+    $yzrssenabled = get_post_meta($post->ID, 'mzenrssenabled_meta_value', true); 
     if (!$yzrssenabled) {$yzrssenabled = "no";}
     ?>   
 <style>
@@ -841,45 +812,45 @@ function yzen_callback(){
 //выводим метабокс end
 
 //добавляем новую rss-ленту begin
-function yzen_add_feed(){
-    $yzen_options = get_option('yzen_options'); 
-    if (!isset($yzen_options['yzrssname'])) {$yzen_options['yzrssname']="zen";update_option('yzen_options', $yzen_options);}
-    add_feed($yzen_options['yzrssname'], 'yzen_feed_template');
+function mzen_add_feed(){
+    $mzen_options = get_option('mzen_options'); 
+    if (!isset($mzen_options['yzrssname'])) {$mzen_options['yzrssname']="multizen";update_option('mzen_options', $mzen_options);}
+    add_feed($mzen_options['yzrssname'], 'mzen_feed_template');
 }
-add_action('init', 'yzen_add_feed');
+add_action('init', 'mzen_add_feed');
 //добавляем новую rss-ленту end
 
 //шаблон для RSS-ленты Яндекс.Дзен begin
-function yzen_feed_template(){
-yzen_set_new_options();
-$yzen_options = get_option('yzen_options');  
+function mzen_feed_template(){
+mzen_set_new_options();
+$mzen_options = get_option('mzen_options');  
 
-$yztitle = $yzen_options['yztitle'];
-$yzlink = $yzen_options['yzlink'];
-$yzdescription = $yzen_options['yzdescription'];
-$yzlanguage = $yzen_options['yzlanguage']; 
-$yznumber = $yzen_options['yznumber']; 
-$yztype = $yzen_options['yztype']; 
+$yztitle = $mzen_options['yztitle'];
+$yzlink = $mzen_options['yzlink'];
+$yzdescription = $mzen_options['yzdescription'];
+$yzlanguage = $mzen_options['yzlanguage']; 
+$yznumber = $mzen_options['yznumber']; 
+$yztype = $mzen_options['yztype']; 
 $yztype = explode(",", $yztype);
-$yzfigcaption = $yzen_options['yzfigcaption']; 
-$yzimgauthorselect = $yzen_options['yzimgauthorselect']; 
-$yzimgauthor = $yzen_options['yzimgauthor']; 
-$yzauthor = $yzen_options['yzauthor'];
-$yzthumbnail = $yzen_options['yzthumbnail']; 
-$yzselectthumb = $yzen_options['yzselectthumb'];  
-$yzseodesc = $yzen_options['yzseodesc']; 
-$yzseoplugin = $yzen_options['yzseoplugin'];
-$yzexcludetags = $yzen_options['yzexcludetags']; 
-$yzexcludetagslist = html_entity_decode($yzen_options['yzexcludetagslist']); 
-$yzexcludetags2 = $yzen_options['yzexcludetags2']; 
-$yzexcludetagslist2 = html_entity_decode($yzen_options['yzexcludetagslist2']); 
-$yzexcludecontent = $yzen_options['yzexcludecontent']; 
-$yzexcludecontentlist = html_entity_decode($yzen_options['yzexcludecontentlist']);
+$yzfigcaption = $mzen_options['yzfigcaption']; 
+$yzimgauthorselect = $mzen_options['yzimgauthorselect']; 
+$yzimgauthor = $mzen_options['yzimgauthor']; 
+$yzauthor = $mzen_options['yzauthor'];
+$yzthumbnail = $mzen_options['yzthumbnail']; 
+$yzselectthumb = $mzen_options['yzselectthumb'];  
+$yzseodesc = $mzen_options['yzseodesc']; 
+$yzseoplugin = $mzen_options['yzseoplugin'];
+$yzexcludetags = $mzen_options['yzexcludetags']; 
+$yzexcludetagslist = html_entity_decode($mzen_options['yzexcludetagslist']); 
+$yzexcludetags2 = $mzen_options['yzexcludetags2']; 
+$yzexcludetagslist2 = html_entity_decode($mzen_options['yzexcludetagslist2']); 
+$yzexcludecontent = $mzen_options['yzexcludecontent']; 
+$yzexcludecontentlist = html_entity_decode($mzen_options['yzexcludecontentlist']);
 $tax_query = array();
 
-$yzqueryselect = $yzen_options['yzqueryselect'];
-$yztaxlist = $yzen_options['yztaxlist']; 
-$yzaddtaxlist = $yzen_options['yzaddtaxlist']; 
+$yzqueryselect = $mzen_options['yzqueryselect'];
+$yztaxlist = $mzen_options['yztaxlist']; 
+$yzaddtaxlist = $mzen_options['yzaddtaxlist']; 
 
 if ($yzqueryselect=='Все таксономии, кроме исключенных' && $yztaxlist) {
     $textAr = explode("\n", trim($yztaxlist));
@@ -914,10 +885,10 @@ if ($yzqueryselect=='Только указанные таксономии' && $y
 } 
 
 $args = array('ignore_sticky_posts' => 1, 'post_type' => $yztype, 'post_status' => 'publish', 'posts_per_page' => $yznumber,'tax_query' => $tax_query,
-'meta_query' => array('relation' => 'OR', array('key' => 'yzrssenabled_meta_value', 'compare' => 'NOT EXISTS',),
-array('key' => 'yzrssenabled_meta_value', 'value' => 'yes', 'compare' => '!=',),));
+'meta_query' => array('relation' => 'OR', array('key' => 'mzenrssenabled_meta_value', 'compare' => 'NOT EXISTS',),
+array('key' => 'mzenrssenabled_meta_value', 'value' => 'yes', 'compare' => '!=',),));
 
-$args_alt = apply_filters( 'yzen_query_args', $args, 8 );
+$args_alt = apply_filters( 'mzen_query_args', $args, 8 );
 if (isset($args_alt) && is_array($args_alt)) $args = $args_alt;
 $query = new WP_Query( $args );
 
@@ -935,7 +906,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
     <link><?php echo $yzlink; ?></link>
     <description><?php echo $yzdescription; ?></description>
     <language><?php echo $yzlanguage; ?></language>
-    <generator>RSS for Yandex Zen v1.28 (https://wordpress.org/plugins/multi-rss-for-zen/)</generator>
+    <generator>RSS for Multi Zen v1.0 (https://giport.ru/)</generator>
     <?php while($query->have_posts()) : $query->the_post(); ?>
     <item>
         <title><?php the_title_rss(); ?></title>
@@ -946,8 +917,8 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
               $gmt_offset_str = ($gmt_offset_abs > 9) ? $gmt_offset_abs.'00' : ('0'.$gmt_offset_abs.'00');
               $gmt_offset_str = $gmt_offset >= 0 ? '+' . $gmt_offset_str : '-' . $gmt_offset_str; ?>
         <pubDate><?php echo mysql2date('D, d M Y H:i:s '.$gmt_offset_str, get_date_from_gmt(get_post_time('Y-m-d H:i:s', true)), false); ?></pubDate>
-        <?php $yzrating = get_post_meta(get_the_ID(), 'yzrating_meta_value', true); ?>
-        <?php if ( ! $yzrating ) $yzrating = $yzen_options['yzrating'];  ?>
+        <?php $yzrating = get_post_meta(get_the_ID(), 'mzenrating_meta_value', true); ?>
+        <?php if ( ! $yzrating ) $yzrating = $mzen_options['yzrating'];  ?>
         <?php if ($yzrating == 'Да (для взрослых)') { 
             echo '<media:rating scheme="urn:simple">adult</media:rating>'.PHP_EOL;
         } else {
@@ -960,39 +931,39 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
         } ?>
         <?php if($yzimgauthorselect == 'Указать автора' && !$yzimgauthor){$yzimgauthor = get_the_author();} ?>
         <?php if($yzimgauthorselect == 'Автор записи'){$yzimgauthor = get_the_author();} ?>
-        <?php $yzcategory = get_post_meta(get_the_ID(), 'yzcategory_meta_value', true); ?>
+        <?php $yzcategory = get_post_meta(get_the_ID(), 'mzencategory_meta_value', true); ?>
         <?php if ($yzcategory) { echo '<category>'.$yzcategory.'</category>'.PHP_EOL; }
-        else {echo '<category>'.$yzen_options['yzcategory'].'</category>'.PHP_EOL;} ?>
+        else {echo '<category>'.$mzen_options['yzcategory'].'</category>'.PHP_EOL;} ?>
         <?php 
-        $yztypearticle = get_post_meta(get_the_ID(), 'yztypearticle_meta_value', true); 
-        if ( ! $yztypearticle ) $yztypearticle = $yzen_options['yztypearticle'];
-        $yztypearticle = apply_filters('yzen_type_article', $yztypearticle);
+        $yztypearticle = get_post_meta(get_the_ID(), 'mzentypearticle_meta_value', true); 
+        if ( ! $yztypearticle ) $yztypearticle = $mzen_options['yztypearticle'];
+        $yztypearticle = apply_filters('mzen_type_article', $yztypearticle);
         if ( $yztypearticle == 'false' ) echo '<category>evergreen</category>'.PHP_EOL;
         ?>
         <?php 
-        $yztypeplatform = get_post_meta(get_the_ID(), 'yztypeplatform_meta_value', true); 
-        if ( ! $yztypeplatform ) $yztypeplatform = $yzen_options['yztypeplatform'];
-        $yztypeplatform = apply_filters('yzen_type_platform', $yztypeplatform);
+        $yztypeplatform = get_post_meta(get_the_ID(), 'mzentypeplatform_meta_value', true); 
+        if ( ! $yztypeplatform ) $yztypeplatform = $mzen_options['yztypeplatform'];
+        $yztypeplatform = apply_filters('mzen_type_platform', $yztypeplatform);
         if ( $yztypeplatform ) echo '<category>'.$yztypeplatform.'</category>'.PHP_EOL;
         ?>
         <?php 
-        $yzindex = get_post_meta(get_the_ID(), 'yzindex_meta_value', true); 
-        if ( ! $yzindex ) $yzindex = $yzen_options['yzindex'];
-        $yzindex = apply_filters('yzen_index', $yzindex);
+        $yzindex = get_post_meta(get_the_ID(), 'mzenindex_meta_value', true); 
+        if ( ! $yzindex ) $yzindex = $mzen_options['yzindex'];
+        $yzindex = apply_filters('mzen_index', $yzindex);
         if ( $yzindex ) echo '<category>'.$yzindex.'</category>'.PHP_EOL;
         ?>
         <?php echo '<category>comment-subscribers</category>'.PHP_EOL; ?>
         <?php
         if ($yzthumbnail=="enabled" && has_post_thumbnail( get_the_ID() )) {
-            echo '<enclosure url="' . strtok(get_the_post_thumbnail_url(get_the_ID(),$yzselectthumb), '?') . '" type="'.yzen_mime_type(strtok(get_the_post_thumbnail_url(get_the_ID(),$yzselectthumb), '?')).'"/>'.PHP_EOL; 
+            echo '<enclosure url="' . strtok(get_the_post_thumbnail_url(get_the_ID(),$yzselectthumb), '?') . '" type="'.mzen_mime_type(strtok(get_the_post_thumbnail_url(get_the_ID(),$yzselectthumb), '?')).'"/>'.PHP_EOL; 
         }    
-        $html = yzen_the_content_feed();
+        $html = mzen_the_content_feed();
         
         if ($yzexcludetags != 'disabled' && $yzexcludetagslist) {
-            $html = yzen_strip_tags_without_content($html, $yzexcludetagslist);
+            $html = mzen_strip_tags_without_content($html, $yzexcludetagslist);
         }
         if ($yzexcludetags2 != 'disabled' && $yzexcludetagslist2) {
-            $html = yzen_strip_tags_with_content($html, $yzexcludetagslist2, true);
+            $html = mzen_strip_tags_with_content($html, $yzexcludetagslist2, true);
         }
         $html = wpautop($html);
 
@@ -1002,8 +973,8 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
         $urltoimages = $dom->getElementsByTagName('a');
         $final  = array();
         foreach ($urltoimages as $urltoimage) {    
-            if (yzen_mime_type(strtok($urltoimage->getAttribute('href'), '?'))!="Unknown file type" && ! in_array($urltoimage->getAttribute('href'), $final)) {
-                echo '<enclosure url="' . strtok($urltoimage->getAttribute('href'), '?') . '" type="'.yzen_mime_type(strtok($urltoimage->getAttribute('href'), '?')).'"/>'.PHP_EOL; 
+            if (mzen_mime_type(strtok($urltoimage->getAttribute('href'), '?'))!="Unknown file type" && ! in_array($urltoimage->getAttribute('href'), $final)) {
+                echo '<enclosure url="' . strtok($urltoimage->getAttribute('href'), '?') . '" type="'.mzen_mime_type(strtok($urltoimage->getAttribute('href'), '?')).'"/>'.PHP_EOL; 
                 $final[] = $urltoimage->getAttribute('href');
             }    
         }
@@ -1011,7 +982,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
         $final = array();
         foreach ($images as $image) {         
             if (! in_array($image->getAttribute('src'), $final)) {
-                echo '<enclosure url="' . strtok($image->getAttribute('src'), '?') . '" type="'.yzen_mime_type(strtok($image->getAttribute('src'), '?')).'"/>'.PHP_EOL; 
+                echo '<enclosure url="' . strtok($image->getAttribute('src'), '?') . '" type="'.mzen_mime_type(strtok($image->getAttribute('src'), '?')).'"/>'.PHP_EOL; 
                 $final[] = $image->getAttribute('src');
             }    
         }
@@ -1020,36 +991,36 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
         if ($yzseodesc != 'disabled') { 
             if ($yzseoplugin == 'Yoast SEO') {
                 $temp = get_post_meta(get_the_ID(), "_yoast_wpseo_metadesc", true);
-                $temp = apply_filters( 'yzen_the_excerpt', $temp );
+                $temp = apply_filters( 'mzen_the_excerpt', $temp );
                 $temp = apply_filters( 'convert_chars', $temp );
                 $temp = apply_filters( 'ent2ncr', $temp, 8 );
-                if (!$temp) {$temp = yzen_the_excerpt_rss();}
+                if (!$temp) {$temp = mzen_the_excerpt_rss();}
                 echo "<description><![CDATA[{$temp}]]></description>".PHP_EOL;
             }    
             if ($yzseoplugin == 'All in One SEO Pack') {
                 $temp = get_post_meta(get_the_ID(), "_aioseop_description", true);
-                $temp = apply_filters( 'yzen_the_excerpt', $temp );
+                $temp = apply_filters( 'mzen_the_excerpt', $temp );
                 $temp = apply_filters( 'convert_chars', $temp );
                 $temp = apply_filters( 'ent2ncr', $temp, 8 );
-                if (!$temp) {$temp = yzen_the_excerpt_rss();}
+                if (!$temp) {$temp = mzen_the_excerpt_rss();}
                 echo "<description><![CDATA[{$temp}]]></description>".PHP_EOL;
             }  
         } else { ?>
-        <description><![CDATA[<?php echo yzen_the_excerpt_rss(); ?>]]></description>
+        <description><![CDATA[<?php echo mzen_the_excerpt_rss(); ?>]]></description>
         <?php } ?>
         <content:encoded><![CDATA[
        	<?php 
         global $post;
         $tt = $post;
-		$content = yzen_the_content_feed();
+		$content = mzen_the_content_feed();
         $post = $tt;
         setup_postdata( $post );
         
         if ($yzexcludetags != 'disabled' && $yzexcludetagslist) {
-            $content = yzen_strip_tags_without_content($content, $yzexcludetagslist);
+            $content = mzen_strip_tags_without_content($content, $yzexcludetagslist);
         }
         if ($yzexcludetags2 != 'disabled' && $yzexcludetagslist2) {
-            $content = yzen_strip_tags_with_content($content, $yzexcludetagslist2, true);
+            $content = mzen_strip_tags_with_content($content, $yzexcludetagslist2, true);
         }
         
         if ($yzthumbnail=="enabled" && has_post_thumbnail( get_the_ID() )) {
@@ -1066,8 +1037,8 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
         }
         if ($yzthumbnail=="enabled" && ! has_post_thumbnail( get_the_ID() )) {
             $caption = ''; $imgurl = '';
-            $caption = apply_filters('yzen_thumb_caption', $caption);
-            $imgurl = apply_filters('yzen_thumb_imgurl', $imgurl);
+            $caption = apply_filters('mzen_thumb_caption', $caption);
+            $imgurl = apply_filters('mzen_thumb_imgurl', $imgurl);
             if ( $caption ) {
                 $temp = '<figcaption>'.$caption.'</figcaption>';}
             else {
@@ -1082,7 +1053,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
         $content = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $content);
         
         //удаляем все атрибуты тега img кроме src, width, height
-        $content = yzen_strip_attributes($content,array('src','width','height'));
+        $content = mzen_strip_attributes($content,array('src','width','height'));
         
         $content = wpautop($content);
 
@@ -1178,7 +1149,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
         $content = preg_replace('/<p>https:\/\/youtu.*?<\/p>/i','', $content);
         $content = preg_replace('/<p>https:\/\/www.youtu.*?<\/p>/i','', $content);
         
-        $content = apply_filters('yzen_the_content_end', $content);
+        $content = apply_filters('mzen_the_content_end', $content);
     
 		echo $content;
 
@@ -1193,7 +1164,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'.PHP_EO
 //шаблон для RSS-ленты Яндекс.Дзен end
 
 //функция установки корректного mime type для изображений begin
-function yzen_mime_type($file) {
+function mzen_mime_type($file) {
 	$mime_type = array(
 		"bmp"			=>	"image/bmp",
 		"gif"			=>	"image/gif",
@@ -1216,21 +1187,21 @@ function yzen_mime_type($file) {
 //функция установки корректного mime type для изображений end
 
 //установка правильного content type для ленты плагина begin
-function yzen_feed_content_type( $content_type, $type ) {
-    $yzen_options = get_option('yzen_options'); 
-    if (!isset($yzen_options['yzrssname'])) {$yzen_options['yzrssname']="zen";update_option('yzen_options', $yzen_options);}
-    if( $yzen_options['yzrssname'] == $type ) {
+function mzen_feed_content_type( $content_type, $type ) {
+    $mzen_options = get_option('mzen_options'); 
+    if (!isset($mzen_options['yzrssname'])) {$mzen_options['yzrssname']="multizen";update_option('mzen_options', $mzen_options);}
+    if( $mzen_options['yzrssname'] == $type ) {
         $content_type = 'application/rss+xml';
     }
     return $content_type;
 }
-add_filter( 'feed_content_type', 'yzen_feed_content_type', 10, 2 );
+add_filter( 'feed_content_type', 'mzen_feed_content_type', 10, 2 );
 //установка правильного content type для ленты плагина end
 
 //функция формирования description в rss begin
-function yzen_the_excerpt_rss() {
+function mzen_the_excerpt_rss() {
     $content = get_the_excerpt();
-    $content = apply_filters('yzen_the_excerpt', $content);
+    $content = apply_filters('mzen_the_excerpt', $content);
     $content = apply_filters('convert_chars', $content);
     $content = apply_filters('ent2ncr', $content, 8);
     return $content;
@@ -1238,9 +1209,9 @@ function yzen_the_excerpt_rss() {
 //функция формирования description в rss end
 
 //функция формирования content в rss begin
-function yzen_the_content_feed() {
-    $yzen_options = get_option('yzen_options');  
-    if ($yzen_options['yzexcerpt'] == 'enabled') {
+function mzen_the_content_feed() {
+    $mzen_options = get_option('mzen_options');  
+    if ($mzen_options['yzexcerpt'] == 'enabled') {
         $content = '';
         if ( has_excerpt( get_the_ID() ) ) {
             $content = '<p>' . get_the_excerpt( get_the_ID() ) . '</p>';
@@ -1249,7 +1220,7 @@ function yzen_the_content_feed() {
     } else {
         $content = apply_filters('the_content', get_post_field('post_content', get_the_ID()));
     }    
-    $content = apply_filters('yzen_the_content', $content);
+    $content = apply_filters('mzen_the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
     $content = apply_filters('wp_staticize_emoji', $content);
     $content = apply_filters('_oembed_filter_feed_content', $content);
@@ -1258,7 +1229,7 @@ function yzen_the_content_feed() {
 //функция формирования content в rss end
 
 //функция удаления тегов вместе с их контентом begin 
-function yzen_strip_tags_with_content($text, $tags = '', $invert = FALSE) {
+function mzen_strip_tags_with_content($text, $tags = '', $invert = FALSE) {
     preg_match_all( '/<(.+?)[\s]*\/?[\s]*>/si', trim( $tags ), $tags_array );
 	$tags_array = array_unique( $tags_array[1] );
 
@@ -1278,7 +1249,7 @@ function yzen_strip_tags_with_content($text, $tags = '', $invert = FALSE) {
 	}
 
 	if ( $regex && preg_match( $regex, $text ) ) {
-		$text = yzen_strip_tags_with_content( $text, $tags, $invert );
+		$text = mzen_strip_tags_with_content( $text, $tags, $invert );
 	}
 
 	return $text;
@@ -1286,7 +1257,7 @@ function yzen_strip_tags_with_content($text, $tags = '', $invert = FALSE) {
 //функция удаления тегов вместе с их контентом end
 
 //функция удаления тегов без их контента begin 
-function yzen_strip_tags_without_content($text, $tags = '') {
+function mzen_strip_tags_without_content($text, $tags = '') {
 
     preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags);
     $tags = array_unique($tags[1]);
@@ -1301,18 +1272,18 @@ function yzen_strip_tags_without_content($text, $tags = '') {
 //функция удаления тегов без их контента end 
 
 //функция принудительной установки header-тега X-Robots-Tag (решение проблемы с SEO-плагинами) begin
-function yzen_index_follow_rss() {
-    $yzen_options = get_option('yzen_options'); 
-    if (!isset($yzen_options['yzrssname'])) {$yzen_options['yzrssname']="zen";update_option('yzen_options', $yzen_options);}
-    if ( is_feed( $yzen_options['yzrssname'] ) ) {
+function mzen_index_follow_rss() {
+    $mzen_options = get_option('mzen_options'); 
+    if (!isset($mzen_options['yzrssname'])) {$mzen_options['yzrssname']="multizen";update_option('mzen_options', $mzen_options);}
+    if ( is_feed( $mzen_options['yzrssname'] ) ) {
         header( 'X-Robots-Tag: index, follow', true );
     }
 }
-add_action( 'template_redirect', 'yzen_index_follow_rss', 999999 );
+add_action( 'template_redirect', 'mzen_index_follow_rss', 999999 );
 //функция принудительной установки header-тега X-Robots-Tag (решение проблемы с SEO-плагинами) end
 
 //функция удаления всех атрибутов тега img кроме указанных begin
-function yzen_strip_attributes($s, $allowedattr = array()) {
+function mzen_strip_attributes($s, $allowedattr = array()) {
   if (preg_match_all("/<img[^>]*\\s([^>]*)\\/*>/msiU", $s, $res, PREG_SET_ORDER)) {
    foreach ($res as $r) {
      $tag = $r[0];
@@ -1362,42 +1333,42 @@ function yzen_strip_attributes($s, $allowedattr = array()) {
 //функция удаления всех атрибутов тега img кроме указанных end
 
 //функция установки новых опций при обновлении плагина у пользователей begin
-function yzen_set_new_options() { 
-$yzen_options = get_option('yzen_options');
-if (!isset($yzen_options['yzthumbnail'])) {$yzen_options['yzthumbnail']="disabled";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzselectthumb'])) {$yzen_options['yzselectthumb']="";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzseodesc'])) {$yzen_options['yzseodesc']="disabled";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzseoplugin'])) {$yzen_options['yzseoplugin']="Yoast SEO";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcludetags'])) {$yzen_options['yzexcludetags']="disabled";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcludetagslist'])) {$yzen_options['yzexcludetagslist']="<div>";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcludetags2'])) {$yzen_options['yzexcludetags2']="enabled";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcludetagslist2'])) {$yzen_options['yzexcludetagslist2']="<iframe>,<script>,<ins>,<style>,<object>";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcludecontent'])) {$yzen_options['yzexcludecontent']="enabled";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcludecontentlist'])) {$yzen_options['yzexcludecontentlist']=esc_textarea("<!--more-->\n<p><\/p>\n<p>&nbsp;<\/p>");update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzmediascope'])) {$yzen_options['yzmediascope']="";update_option('yzen_options', $yzen_options);}    
-if (!isset($yzen_options['yzqueryselect'])) {$yzen_options['yzqueryselect']="Все таксономии, кроме исключенных";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yztaxlist'])) {$yzen_options['yztaxlist']="";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzaddtaxlist'])) {$yzen_options['yzaddtaxlist']="";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcerpt'])) {$yzen_options['yzexcerpt']="disabled";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzexcludedefault'])) {$yzen_options['yzexcludedefault']="disabled";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yztypearticle'])) {$yzen_options['yztypearticle']="false";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yztypeplatform'])) {$yzen_options['yztypeplatform']="native-no";update_option('yzen_options', $yzen_options);}
-if (!isset($yzen_options['yzindex'])) {$yzen_options['yzindex']="index";update_option('yzen_options', $yzen_options);}
+function mzen_set_new_options() { 
+$mzen_options = get_option('mzen_options');
+if (!isset($mzen_options['yzthumbnail'])) {$mzen_options['yzthumbnail']="disabled";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzselectthumb'])) {$mzen_options['yzselectthumb']="";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzseodesc'])) {$mzen_options['yzseodesc']="disabled";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzseoplugin'])) {$mzen_options['yzseoplugin']="Yoast SEO";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcludetags'])) {$mzen_options['yzexcludetags']="disabled";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcludetagslist'])) {$mzen_options['yzexcludetagslist']="<div>";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcludetags2'])) {$mzen_options['yzexcludetags2']="enabled";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcludetagslist2'])) {$mzen_options['yzexcludetagslist2']="<iframe>,<script>,<ins>,<style>,<object>";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcludecontent'])) {$mzen_options['yzexcludecontent']="enabled";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcludecontentlist'])) {$mzen_options['yzexcludecontentlist']=esc_textarea("<!--more-->\n<p><\/p>\n<p>&nbsp;<\/p>");update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzmediascope'])) {$mzen_options['yzmediascope']="";update_option('mzen_options', $mzen_options);}    
+if (!isset($mzen_options['yzqueryselect'])) {$mzen_options['yzqueryselect']="Все таксономии, кроме исключенных";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yztaxlist'])) {$mzen_options['yztaxlist']="";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzaddtaxlist'])) {$mzen_options['yzaddtaxlist']="";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcerpt'])) {$mzen_options['yzexcerpt']="disabled";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzexcludedefault'])) {$mzen_options['yzexcludedefault']="disabled";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yztypearticle'])) {$mzen_options['yztypearticle']="false";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yztypeplatform'])) {$mzen_options['yztypeplatform']="native-no";update_option('mzen_options', $mzen_options);}
+if (!isset($mzen_options['yzindex'])) {$mzen_options['yzindex']="index";update_option('mzen_options', $mzen_options);}
 
 
-if ( $yzen_options['yzfigcaption'] != "Отключить описания" ) {$yzen_options['yzfigcaption'] = 'Использовать подписи';update_option('yzen_options', $yzen_options);}
+if ( $mzen_options['yzfigcaption'] != "Отключить описания" ) {$mzen_options['yzfigcaption'] = 'Использовать подписи';update_option('mzen_options', $mzen_options);}
 }
 //функция установки новых опций при обновлении плагина у пользователей end
 
 //функция исключения записей из ленты по умолчанию begin
-function yzen_new_post( $post_id, $post, $update ) {
-    $yzen_options = get_option('yzen_options');
-    if ( $yzen_options['yzexcludedefault'] == 'disabled' ) 
+function mzen_new_post( $post_id, $post, $update ) {
+    $mzen_options = get_option('mzen_options');
+    if ( $mzen_options['yzexcludedefault'] == 'disabled' ) 
         return;
     
-    if ( !get_post_meta( $post_id, 'yzrssenabled_meta_value', true ) ) {
-        update_post_meta( $post_id, 'yzrssenabled_meta_value', 'yes' );
+    if ( !get_post_meta( $post_id, 'mzenrssenabled_meta_value', true ) ) {
+        update_post_meta( $post_id, 'mzenrssenabled_meta_value', 'yes' );
     }
 }
-add_action( 'save_post', 'yzen_new_post', 10, 3 );
+add_action( 'save_post', 'mzen_new_post', 10, 3 );
 //функция исключения записей из ленты по умолчанию end

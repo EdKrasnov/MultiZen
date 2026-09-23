@@ -1,0 +1,28 @@
+# Системные
+.DS_Store
+Thumbs.db
+*.log
+*.bak
+*.bak-*
+*.backup-*
+*~
+
+# Бэкапы наших файлов
+*.php.bak
+*.php.v1-backup-*
+*.php.orig
+
+# Кеши
+/cache/
+/tmp/
+*.cache
+
+# Node / Composer (если появятся в будущем)
+node_modules/
+vendor/
+composer.lock
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*

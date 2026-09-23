@@ -1,0 +1,33 @@
+/* Multi Zen — стили метабокса */
+.mzen-metabox .mzen-field {
+    margin: 12px 0;
+}
+
+.mzen-metabox .mzen-fields {
+    margin-top: 8px;
+}
+
+.mzen-metabox .mzen-fields th {
+    width: 140px;
+    padding-left: 0;
+}
+
+.mzen-metabox .mzen-checks {
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.mzen-metabox select {
+    min-width: 200px;
+}
+
+.mzen-metabox #mzen_publish_at {
+    min-width: 220px;
+    vertical-align: middle;
+}
+
+.mzen-metabox #mzen_publish_at_clear {
+    margin-left: 6px;
+    vertical-align: middle;
+}
